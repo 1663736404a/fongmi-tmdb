@@ -23,7 +23,7 @@ jobs:
           java-version: '17'
       - uses: android-actions/setup-android@v3
       - name: Build APK
-        run: ./gradlew assembleLeanback${{ inputs.build_type == 'release' && 'Release' || 'Debug' }} assembleMobile${{ inputs.build_type == 'release' && 'Release' || 'Debug' }}
+        run: bash ./gradlew assembleLeanback${{ inputs.build_type == 'release' && 'Release' || 'Debug' }} assembleMobile${{ inputs.build_type == 'release' && 'Release' || 'Debug' }}
       - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
