@@ -51,6 +51,7 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
         mBinding.mpvGpuNextText.setText(Setting.getSwitch(PlayerSetting.isMpvGpuNext()));
         mBinding.scaleText.setText((scale = ResUtil.getStringArray(R.array.select_scale))[PlayerSetting.getScale()]);
         mBinding.backgroundText.setText((background = ResUtil.getStringArray(R.array.select_background))[PlayerSetting.getBackground()]);
+        mBinding.autoPlayText.setText(Setting.getSwitch(PlayerSetting.isAutoPlay()));
     }
 
     @Override
@@ -65,6 +66,7 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
         mBinding.render.setOnClickListener(this::setRender);
         mBinding.scale.setOnClickListener(this::onScale);
         mBinding.background.setOnClickListener(this::onBackground);
+        mBinding.autoPlay.setOnClickListener(this::setAutoPlay);
         mBinding.buffer.setOnClickListener(this::onBuffer);
         mBinding.preload.setOnClickListener(this::onPreload);
         mBinding.ua.setOnClickListener(this::onUa);
@@ -139,6 +141,11 @@ public class SettingPlayerFragment extends BaseFragment implements UaListener, B
             PlayerSetting.putBackground(which);
             dialog.dismiss();
         }).show();
+    }
+
+    private void setAutoPlay(View view) {
+        PlayerSetting.putAutoPlay(!PlayerSetting.isAutoPlay());
+        mBinding.autoPlayText.setText(Setting.getSwitch(PlayerSetting.isAutoPlay()));
     }
 
     private void setAdblock(View view) {
