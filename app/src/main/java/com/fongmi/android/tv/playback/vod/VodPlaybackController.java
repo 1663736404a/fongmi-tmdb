@@ -12,6 +12,7 @@ import com.fongmi.android.tv.bean.Parse;
 import com.fongmi.android.tv.bean.Result;
 import com.fongmi.android.tv.bean.Vod;
 import com.fongmi.android.tv.playback.PlaybackResult;
+import com.fongmi.android.tv.setting.PlayerSetting;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +29,7 @@ public class VodPlaybackController {
     private final VodFallbackPolicy fallbackPolicy;
     private final VodPreloader preloader;
     private History lastHistory;
+    private boolean restoringDetail;
 
     public VodPlaybackController(VodPlaybackHost host, VodDataSource dataSource, VodPlaybackState state) {
         this.host = host;
@@ -395,10 +397,12 @@ public class VodPlaybackController {
     }
 
     private void restoreDetail(VodPlayRequest activeRequest, History history) {
+        restoringDetail = true;
         if (restorePlaybackSelection(activeRequest)) publishPlaybackMetadata(state.getEpisode());
         else selectFlag(history.getFlag(), true);
         if (history.isRevSort()) reverseEpisode(true);
         if (state.getPlayingRequest() != null && !host.hasPlaybackSession()) requestSelectedEpisode();
+        restoringDetail = false;
     }
 
     private boolean restorePlaybackSelection(VodPlayRequest request) {
@@ -416,6 +420,7 @@ public class VodPlaybackController {
     }
 
     private void requestPlayer(Flag flag, Episode episode) {
+        if (restoringDetail && !PlayerSetting.isAutoPlay()) return;
         historyPolicy.updateEpisode(state.getHistory(), flag, episode);
         VodPlayRequest request = VodPlayRequest.create(host.getVodKey(), flag, episode);
         state.setPendingRequest(request);
