@@ -30,6 +30,14 @@ public class PlayerSetting {
         return getEngine() == ENGINE_EXO;
     }
 
+    public static boolean isAutoPlay() {
+        return Prefers.getBoolean("player_auto_play", true);
+    }
+
+    public static void putAutoPlay(boolean autoPlay) {
+        Prefers.put("player_auto_play", autoPlay);
+    }
+
     public static boolean isMpv() {
         return getEngine() == ENGINE_MPV;
     }
