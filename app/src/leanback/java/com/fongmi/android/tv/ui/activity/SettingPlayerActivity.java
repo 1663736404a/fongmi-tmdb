@@ -47,6 +47,7 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
         mBinding.mpvVulkanText.setText(Setting.getSwitch(PlayerSetting.isMpvVulkan()));
         mBinding.mpvGpuNextText.setText(Setting.getSwitch(PlayerSetting.isMpvGpuNext()));
         mBinding.backgroundText.setText(Setting.getSwitch(PlayerSetting.isBackgroundOn()));
+        mBinding.autoPlayText.setText(Setting.getSwitch(PlayerSetting.isAutoPlay()));
         mBinding.scaleText.setText((scale = ResUtil.getStringArray(R.array.select_scale))[PlayerSetting.getScale()]);
     }
 
@@ -62,6 +63,7 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
         mBinding.render.setOnClickListener(this::setRender);
         mBinding.scale.setOnClickListener(this::setScale);
         mBinding.background.setOnClickListener(this::onBackground);
+        mBinding.autoPlay.setOnClickListener(this::setAutoPlay);
         mBinding.buffer.setOnClickListener(this::onBuffer);
         mBinding.preload.setOnClickListener(this::onPreloadSetting);
         mBinding.ua.setOnClickListener(this::onUa);
@@ -132,6 +134,11 @@ public class SettingPlayerActivity extends BaseActivity implements UaListener, B
     private void onBackground(View view) {
         PlayerSetting.putBackground(PlayerSetting.isBackgroundOn() ? 0 : 1);
         mBinding.backgroundText.setText(Setting.getSwitch(PlayerSetting.isBackgroundOn()));
+    }
+
+    private void setAutoPlay(View view) {
+        PlayerSetting.putAutoPlay(!PlayerSetting.isAutoPlay());
+        mBinding.autoPlayText.setText(Setting.getSwitch(PlayerSetting.isAutoPlay()));
     }
 
     private void setAdblock(View view) {
